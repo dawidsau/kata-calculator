@@ -15,14 +15,13 @@ public class Calculator {
         if (Strings.isBlank(input)){
             return 0;
         }
-        String splitter  = "[,\n/";
+        String splitter  = "[,\n/]";
         String inputWithoutSplitters = input.trim();
         if (input.startsWith("//")) {
             String[] split = input.split("\n", 2);
-            inputWithoutSplitters = split[1];
             splitter = customSplitterGenerator(splitter, split[0]);
+            inputWithoutSplitters = split[1];
         }
-        splitter = splitter +  "]";
         List<Integer> argumentList = getArgumentsList(inputWithoutSplitters, splitter);
         illegalArgumentsValidator(argumentList);
         return argumentList.stream()
@@ -46,7 +45,7 @@ public class Calculator {
         String regexInside = "(^.*?\\[|\\]\\s*$)", regexBetween = "\\]\\[";
         String[] arrayOfSplitters = s.substring(2).replaceAll(regexInside,"").split(regexBetween);
         for (String arrayOfSplitter : arrayOfSplitters) {
-            splitter = splitter +"]|[" + arrayOfSplitter;
+            splitter = splitter +"|[" + arrayOfSplitter+"]";
         }
         return splitter;
     }
